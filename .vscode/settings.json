@@ -2,6 +2,8 @@
     "cmake.sourceDirectory": "${workspaceFolder}/src",
     "files.associations": {
         "trainingviewbehavior.h": "c",
-        "signalsdetach.h": "c"
+        "signalsdetach.h": "c",
+        "compare.h": "c",
+        "detach.h": "c"
     }
 }

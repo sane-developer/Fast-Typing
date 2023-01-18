@@ -1,19 +1,19 @@
 /*
- *  Initializes the required UI elements
+ *  Initializes every UI component and assigns each component's default state
  */
-void initialize_setup_ui(GtkBuilder*);
+void initialize_setup_view_widgets(GtkBuilder*);
 
 /*
- *  Renders the setup view
+ *  Renders the setup view UI components
  */
-void render_setup_view();
+void render_setup_view_ui();
 
 /*
- *  Disposes every element of setup view
+ *  Destroys the setup view UI and frees allocated memory if any
  */
-void dispose_setup_view();
+void dispose_setup_view_ui();
 
 /*
- *  Allows the application to render next stage of the program
+ *  Switches view context to Training view
  */
 void move_to_training_view();

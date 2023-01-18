@@ -38,7 +38,7 @@
             <property name="margin-bottom">25</property>
             <property name="max-length">25</property>
             <property name="xalign">0.5</property>
-            <signal name="changed" handler="on_inserted" swapped="no"/>
+            <signal name="changed" handler="changed_input" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">0</property>

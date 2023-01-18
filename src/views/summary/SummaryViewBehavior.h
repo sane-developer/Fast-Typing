@@ -1,29 +1,19 @@
 /*
- *  Sets up the required UI elements
+ *  Initializes every UI component and assigns each component's default state
  */
-void initialize_summary_ui(GtkBuilder*);
+void initialize_summary_view_widgets(GtkBuilder*, int, int, float);
 
 /*
- *  Initializes the default states of UI elements
+ *  Renders the summary view UI components
  */
-void initialize_summary_ui_properties(int);
+void render_summary_view_ui(int, int, float);
 
 /*
- *  Initializes the required variables
+ *  Destroys the summary view UI and frees allocated memory if any
  */
-void initialize_summary_view_variables(int, int, float);
+void dispose_summary_view_ui();
 
 /*
- *  Renders the summary view
+ *  Switches view context to Setup view
  */
-void render_summary_view(int, int, float);
-
-/*
- *  Disposes every element of summary view
- */
-void dispose_summary_view();
-
-/*
- *  Handles the page redirection upon clicking
- */
-static void on_clicked(GtkWidget*, gpointer);
+void move_to_setup_view();

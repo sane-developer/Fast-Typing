@@ -1,34 +1,24 @@
 /*
- *  Sets up the required UI elements
- */
-void initialize_training_ui(GtkBuilder*);
-
-/*
- *  Initializes the default states of UI elements
- */
-void initialize_training_ui_properties(int);
-
-/*
- *  Initializes the required variables
+ *  Initializes every required variable to set up the view widgets
  */
 void initialize_training_view_variables(int, int);
 
 /*
- *  Renders the training view
+ *  Initializes every UI component and assigns each component's default state
  */
-void render_training_view(int, int);
+void initialize_training_view_widgets(GtkBuilder*);
 
 /*
- *  Disposes every element of training view
+ *  Renders the training view UI components
  */
-void dispose_training_view();
+void render_training_view_ui(int, int);
 
 /*
- *  Allows the application to render next stage of the program
+ *  Destroys the training view UI and frees allocated memory if any
  */
-void move_to_summary_view();
+void dispose_training_view_ui();
 
 /*
- *  Handles new key insertions
+ *  Handles the actions upon key insertion
  */
-static void on_inserted(GtkWidget*, gpointer);
+void changed_input(GtkWidget*, gpointer);
