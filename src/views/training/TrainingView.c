@@ -1,54 +1,111 @@
 #include "TrainingViewWidgets.h"
 #include "TrainingViewBehavior.h"
+#include "TrainingViewProperties.h"
+#include "../summary/SummaryViewBehavior.h"
+#include "../../extensions/database/Dictionary.h"
+#include "../../extensions/signals/SignalsDetach.h"
 
-void renderTrainingView(int wordsLength, int wordsCount)
+void initialize_training_ui(GtkBuilder *builder)
 {
-    //  Creates the GTK UI Builder from provided UI configuration
-    //
-    GtkBuilder *builder = gtk_builder_new_from_file("/home/krzysztof/Projects/Fast-Typing-Training/src/views/training/TrainingUI.glade");
+	TrainingMainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "training-window"));
 
-	//  Assigns the main application window widget
-    //
-	TrainingMainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "app-window"));
-	
-    //  Assigns the word display label widget
-    //
-    WordDisplayLabel = GTK_LABEL(gtk_builder_get_object(builder, "word-display-label"));
+    WordDisplayLabel = GTK_LABEL(gtk_builder_get_object(builder, "word-display"));
 
-    //  Assigns the word entry widget
-    //
-    WordInput = GTK_ENTRY(gtk_builder_get_object(builder, "word-text-entry"));
+    WordInput = GTK_ENTRY(gtk_builder_get_object(builder, "word-text"));
 
-    //  Assigns the written words count label widget
-    //
-    WrittenWordsCountLabel = GTK_LABEL(gtk_builder_get_object(builder, "written-words-count-label"));
+    WrittenWordsCountLabel = GTK_LABEL(gtk_builder_get_object(builder, "written-count"));
 
-    //  Assigns the total words count label widget
-    //
-    TotalWordsCountLabel = GTK_LABEL(gtk_builder_get_object(builder, "total-words-count-label"));
+    TotalWordsCountLabel = GTK_LABEL(gtk_builder_get_object(builder, "total-count"));
 
-    //  Assigns the accuracy label widget
-    //
-    AccuracyLabel = GTK_LABEL(gtk_builder_get_object(builder, "accuracy-label"));
+    AccuracyLabel = GTK_LABEL(gtk_builder_get_object(builder, "accuracy"));
 
-    //  Assigns the elapsed time label widget
-    //
-    ElapsedTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "elapsed-time-label"));
+    ElapsedTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "elapsed-time"));
+}
 
-	//  Activates the callback system
-	//
+void initialize_training_ui_properties(int count)
+{
+    g_signal_connect(WordInput, "changed", G_CALLBACK(on_inserted), NULL);
+
+    gtk_label_set_text(WordDisplayLabel, WordToType);
+
+    gtk_label_set_text(TotalWordsCountLabel, g_strdup_printf("%i", count));
+}
+
+void initialize_training_view_variables(int length, int count)
+{
+    const char *path = "/home/krzysztof/Projects/Fast-Typing-Training/src/database/words.txt";
+
+    struct Dictionary *dictionary = read_words_from_file(path);
+
+    WordsToType = get_random_words(dictionary, count, length);
+
+    free(dictionary);
+
+    WordToType = WordsToType[0];
+
+    TotalWordsCount = count;
+
+    StartTime = clock();
+}
+
+void render_training_view(int length, int count)
+{
+    const gchar *path = "/home/krzysztof/Projects/Fast-Typing-Training/src/views/training/TrainingUI.glade";
+
+    GtkBuilder *builder = gtk_builder_new_from_file(path);
+
+    initialize_training_ui(builder);
+
+    initialize_training_view_variables(length, count);
+
+    initialize_training_ui_properties(count);
+
     gtk_builder_connect_signals(builder, NULL); 
-	
-    //  Frees the memory
-    //
+
     g_object_unref(builder);
-	
-    //  Displays the main window
-    //
+
 	gtk_widget_show_all(TrainingMainWindow);
 
-    //  Runs the view
-    //
 	gtk_main();
 }
 
+void dispose_training_view()
+{
+    free(WordsToType);
+
+    disconnect_parent_signals(TrainingMainWindow);
+
+    gtk_widget_destroy(TrainingMainWindow);
+}
+
+void move_to_summary_view()
+{
+    float accuracy = CorrectWordsCount / TotalWordsCount;
+
+    dispose_training_view();
+
+    render_summary_view(CorrectWordsCount, IncorrectWordsCount, accuracy);
+}
+
+static void on_inserted(GtkWidget *widget, gpointer data) 
+{
+    const gchar *text = gtk_entry_get_text(WordInput);
+
+    if (strcmp(text, WordToType) == 0)
+    {
+        gtk_entry_set_text(WordInput, "");
+
+        WrittenWordsCount++;
+
+        gtk_label_set_text(WrittenWordsCountLabel, g_strdup_printf("%i", WrittenWordsCount));
+
+        WordToType = WordsToType[WrittenWordsCount];
+
+        gtk_label_set_text(WordDisplayLabel, WordToType);
+    }
+
+    if (WrittenWordsCount == TotalWordsCount)
+    {
+        move_to_summary_view();
+    }
+}

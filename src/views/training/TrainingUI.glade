@@ -2,12 +2,12 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkWindow" id="app-window">
+  <object class="GtkWindow" id="training-window">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Fast-Typing Training</property>
     <property name="resizable">False</property>
-    <property name="default-width">760</property>
-    <property name="default-height">350</property>
+    <property name="default-width">630</property>
+    <property name="default-height">275</property>
     <child>
       <!-- n-columns=1 n-rows=3 -->
       <object class="GtkGrid">
@@ -16,9 +16,11 @@
         <property name="row-homogeneous">True</property>
         <property name="column-homogeneous">True</property>
         <child>
-          <object class="GtkLabel" id="word-display-label">
+          <object class="GtkLabel" id="word-display">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="margin-top">15</property>
+            <property name="label" translatable="yes">klasa</property>
             <property name="justify">center</property>
           </object>
           <packing>
@@ -27,15 +29,16 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="word-text-entry">
+          <object class="GtkEntry" id="word-text">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="margin-start">75</property>
             <property name="margin-end">75</property>
-            <property name="margin-top">25</property>
+            <property name="margin-top">20</property>
             <property name="margin-bottom">25</property>
             <property name="max-length">25</property>
             <property name="xalign">0.5</property>
+            <signal name="changed" handler="on_inserted" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">0</property>
@@ -43,17 +46,18 @@
           </packing>
         </child>
         <child>
-          <!-- n-columns=4 n-rows=1 -->
+          <!-- n-columns=4 n-rows=2 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="margin-bottom">15</property>
             <property name="row-homogeneous">True</property>
             <property name="column-homogeneous">True</property>
             <child>
-              <object class="GtkLabel" id="written-words-count-label">
+              <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Written words: 0</property>
+                <property name="label" translatable="yes">Written words</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -61,10 +65,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="total-words-count-label">
+              <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Total words: 0</property>
+                <property name="label" translatable="yes">Total words</property>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -72,10 +76,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="accuracy-label">
+              <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Accuracy: 100%</property>
+                <property name="label" translatable="yes">Accuracy</property>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -83,14 +87,58 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="elapsed-time-label">
+              <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">Elapsed time: 0s</property>
+                <property name="label" translatable="yes">Elapsed time</property>
               </object>
               <packing>
                 <property name="left-attach">3</property>
                 <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="written-count">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">0</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="total-count">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">0</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="accuracy">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">100%</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="elapsed-time">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">0.00</property>
+              </object>
+              <packing>
+                <property name="left-attach">3</property>
+                <property name="top-attach">1</property>
               </packing>
             </child>
           </object>

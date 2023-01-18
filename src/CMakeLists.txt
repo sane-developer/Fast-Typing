@@ -13,11 +13,13 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -rdynamic")
 
 include_directories(views)
 
-configure_file(views/setup/SetupUI.glade ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-configure_file(views/summary/SummaryUI.glade ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-configure_file(views/training/TrainingUI.glade ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-configure_file(database/words.txt ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+# Use relative path for the glade files
+configure_file(views/setup/SetupUI.glade ${CMAKE_CURRENT_BINARY_DIR}/views/setup COPYONLY)
+configure_file(views/summary/SummaryUI.glade ${CMAKE_CURRENT_BINARY_DIR}/views/summary COPYONLY)
+configure_file(views/training/TrainingUI.glade ${CMAKE_CURRENT_BINARY_DIR}/views/training COPYONLY)
+configure_file(database/words.txt ${CMAKE_CURRENT_BINARY_DIR}/database COPYONLY)
 
+# Use relative path for the source files
 add_executable(Fast-Typing-Training
     main.c
     views/setup/SetupView.c
@@ -31,6 +33,8 @@ add_executable(Fast-Typing-Training
     views/training/TrainingViewWidgets.h
     extensions/signals/SignalsDetach.c
     extensions/signals/SignalsDetach.h
+    extensions/database/Dictionary.c
+    extensions/database/Dictionary.h
 )
 
 target_link_libraries(Fast-Typing-Training ${GTK3_LIBRARIES})

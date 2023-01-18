@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
 	//  Renders the Setup View
 	//
-	renderSetupView();
+	render_setup_view();
 
 	//  Returns the 0 code
 	//

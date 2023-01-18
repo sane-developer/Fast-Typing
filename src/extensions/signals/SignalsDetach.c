@@ -1,6 +1,6 @@
 #include "SignalsDetach.h"
 
-void disconnectParentSignals(GtkWidget *parent)
+void disconnect_parent_signals(GtkWidget *parent)
 {
     //  Gets the parent children
     //

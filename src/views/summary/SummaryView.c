@@ -1,63 +1,56 @@
 #include "SummaryViewWidgets.h"
 #include "SummaryViewBehavior.h"
 #include "../setup/SetupViewBehavior.h"
+#include "../../extensions/signals/SignalsDetach.h"
 
-void renderSummaryView(int correctWords, int incorrectWords, float accuracy)
+void initialize_summary_ui(GtkBuilder *builder)
 {
-    //  Creates the GTK UI Builder from provided UI configuration
-    //
-    GtkBuilder *builder = gtk_builder_new_from_file("/home/krzysztof/Projects/Fast-Typing-Training/src/views/summary/SummaryUI.glade");
+    SummaryMainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "summary-window"));
 
-    //  Assigns the main application window widget
-    //
-    SummaryMainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "app-window"));
-    
-    //  Assigns the correct words count label widget
-    //
-    CorrectWordsCountLabel = GTK_LABEL(gtk_builder_get_object(builder, "correct-words-count-label"));
-    
-    //  Assigns the incorrect words count label widget
-    //
-    IncorrectWordsCountLabel = GTK_LABEL(gtk_builder_get_object(builder, "incorrect-words-count-label"));
-    
-    //  Assigns the accuracy label widget
-    //
-    TypingAccuracyLabel = GTK_LABEL(gtk_builder_get_object(builder, "accuracy-label"));
-    
-    //  Assigns the best time label widget
-    //
-    BestTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "best-time-label"));
-    
-    //  Assigns the average time label widget
-    //
-    AverageTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "average-time-label"));
-    
-    //  Assigns the worst time label widget
-    //
-    WorstTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "worst-time-label"));
-    
-    //  Assigns the reset setup button
-    //
-    SetupResetButton = GTK_BUTTON(gtk_builder_get_object(builder, "reset-setup-button"));
+    CorrectWordsCountLabel = GTK_LABEL(gtk_builder_get_object(builder, "correct-count"));
 
-    //  Activates the callback system
-	//
+    IncorrectWordsCountLabel = GTK_LABEL(gtk_builder_get_object(builder, "incorrect-count"));
+
+    TypingAccuracyLabel = GTK_LABEL(gtk_builder_get_object(builder, "accuracy"));
+
+    BestTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "best-time"));
+
+    AverageTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "average-time"));
+
+    WorstTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "worst-time"));
+
+    SetupResetButton = GTK_BUTTON(gtk_builder_get_object(builder, "move-setup"));
+}
+
+void render_summary_view(int correctWords, int incorrectWords, float accuracy)
+{
+    const gchar* path = "/home/krzysztof/Projects/Fast-Typing-Training/src/views/summary/SummaryUI.glade";
+
+    GtkBuilder *builder = gtk_builder_new_from_file(path);
+
+    initialize_summary_ui(builder);
+
+    g_signal_connect(SetupResetButton, "clicked", G_CALLBACK(move_to_setup_view), NULL);
+
     gtk_builder_connect_signals(builder, NULL); 
-	
-    //  Frees the memory
-    //
+
     g_object_unref(builder);
-	
-    //  Displays the main window
-    //
+
 	gtk_widget_show_all(SummaryMainWindow);
 
-    //  Runs the view
-    //
 	gtk_main();
 }
 
-void reset()
+void dispose_summary_view()
 {
-    renderSetupView();
+    disconnect_parent_signals(SummaryMainWindow);
+
+    gtk_widget_destroy(SummaryMainWindow);
+}
+
+void move_to_setup_view()
+{
+    dispose_summary_view();
+    
+    render_setup_view();
 }
