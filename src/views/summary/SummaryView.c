@@ -4,13 +4,9 @@
 
 void renderSummaryView(int correctWords, int incorrectWords, float accuracy)
 {
-    //  Creates the GTK UI Builder
+    //  Creates the GTK UI Builder from provided UI configuration
     //
-    GtkBuilder *builder = gtk_builder_new();
-
-    //  Loads the UI from the file
-    //
-    gtk_builder_add_from_file(builder, "summary-view.glade", NULL);
+    GtkBuilder *builder = gtk_builder_new_from_file("/home/krzysztof/Projects/Fast-Typing-Training/src/views/summary/SummaryUI.glade");
 
     //  Assigns the main application window widget
     //

@@ -1,48 +1,45 @@
 #include "SetupViewWidgets.h"
 #include "SetupViewBehavior.h"
 #include "../training/TrainingViewBehavior.h"
+#include "../../extensions/signals/SignalsDetach.h"
 
 void renderSetupView()
 {
-    //  Creates the GTK UI Builder
+    //  Creates the GTK UI Builder from provided UI configuration
     //
-    GtkBuilder *builder = gtk_builder_new();
+    GtkBuilder *builder = gtk_builder_new_from_file("/home/krzysztof/Projects/Fast-Typing-Training/src/views/setup/SetupUI.glade");
 
-    //  Updates the builder with the Setup view UI blueprint
+	//  Assigns the main application window widget
     //
-    gtk_builder_add_from_file(builder, "SetupView.glade", NULL);
-
-    //  Assigns the main application window widget
-    //
-    SetupMainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "application"));
+	SetupMainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "setup-window"));
 
     //  Assigns the maximum words length input widget
     //
-    WordsLengthInput = GTK_ENTRY(gtk_builder_get_object(builder, "words-length-entry"));
+    WordsLengthInput = GTK_ENTRY(gtk_builder_get_object(builder, "words-length"));
 
     //  Assigns the maximum words count input widget
     //
-    WordsAmountInput = GTK_ENTRY(gtk_builder_get_object(builder, "words-amount-entry"));
+    WordsAmountInput = GTK_ENTRY(gtk_builder_get_object(builder, "words-count"));
 
     //  Assigns the start training button widget
     //
-    StartTrainingButton = GTK_BUTTON(gtk_builder_get_object(builder, "start-training-button"));
+    StartTrainingButton = GTK_BUTTON(gtk_builder_get_object(builder, "start-training"));
 
-    //  Activates the callback system
-    //
+	//  Activates the callback system
+	//
     gtk_builder_connect_signals(builder, NULL); 
-
+	
     //  Frees the memory
     //
     g_object_unref(builder);
 
     //  Displays the main window
     //
-    gtk_widget_show_all(SetupMainWindow);
+	gtk_widget_show_all(SetupMainWindow);
 
     //  Runs the view
     //
-    gtk_main();
+	gtk_main();
 }
 
 void startTraining()
@@ -54,6 +51,14 @@ void startTraining()
     //  Gets the words amount from the entry
     //
     int wordsAmount = atoi(gtk_entry_get_text(WordsAmountInput));
+
+    //  Disconnects all the signals related to the setup window
+    //
+    disconnectParentSignals(SetupMainWindow);
+
+    //  Destroys the setup view window
+    //
+    gtk_widget_destroy(SetupMainWindow);
     
     //  Renders the Training view
     //

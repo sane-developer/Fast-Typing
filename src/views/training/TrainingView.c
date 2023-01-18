@@ -3,13 +3,9 @@
 
 void renderTrainingView(int wordsLength, int wordsCount)
 {
-    //  Creates the GTK UI Builder
+    //  Creates the GTK UI Builder from provided UI configuration
     //
-    GtkBuilder *builder = gtk_builder_new();
-
-    //  Updates the builder with the Training view UI blueprint
-    //
-	gtk_builder_add_from_file(builder, "training-view.glade", NULL);
+    GtkBuilder *builder = gtk_builder_new_from_file("/home/krzysztof/Projects/Fast-Typing-Training/src/views/training/TrainingUI.glade");
 
 	//  Assigns the main application window widget
     //
