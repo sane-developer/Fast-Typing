@@ -10,11 +10,11 @@ void renderSetupView()
 
     //  Updates the builder with the Setup view UI blueprint
     //
-	gtk_builder_add_from_file(builder, "SetupView.glade", NULL);
+    gtk_builder_add_from_file(builder, "SetupView.glade", NULL);
 
-	//  Assigns the main application window widget
+    //  Assigns the main application window widget
     //
-	SetupMainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "application"));
+    SetupMainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "application"));
 
     //  Assigns the maximum words length input widget
     //
@@ -28,21 +28,21 @@ void renderSetupView()
     //
     StartTrainingButton = GTK_BUTTON(gtk_builder_get_object(builder, "start-training-button"));
 
-	//  Activates the callback system
-	//
+    //  Activates the callback system
+    //
     gtk_builder_connect_signals(builder, NULL); 
-	
+
     //  Frees the memory
     //
     g_object_unref(builder);
 
     //  Displays the main window
     //
-	gtk_widget_show_all(SetupMainWindow);
+    gtk_widget_show_all(SetupMainWindow);
 
     //  Runs the view
     //
-	gtk_main();
+    gtk_main();
 }
 
 void startTraining()
