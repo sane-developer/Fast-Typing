@@ -16,7 +16,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -rdynamic")
 
 set(SOURCES
     main.c
-    extensions/strings/Compare.c
     extensions/signals/Detach.c
     extensions/words/Dictionary.c
     views/setup/SetupView.c
@@ -25,7 +24,6 @@ set(SOURCES
 )
 
 set(HEADERS
-    extensions/strings/Compare.h
     extensions/signals/Detach.h
     extensions/words/Dictionary.h
     views/setup/SetupViewBehavior.h

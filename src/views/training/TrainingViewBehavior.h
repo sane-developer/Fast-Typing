@@ -22,3 +22,8 @@ void dispose_training_view_ui();
  *  Handles the actions upon key insertion
  */
 void changed_input(GtkWidget*, gpointer);
+
+/*
+ *  Allows to switch context to summary view
+ */
+void move_to_summary_view();

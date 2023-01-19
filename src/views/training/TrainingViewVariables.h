@@ -6,11 +6,6 @@
 clock_t StartTime;
 
 /*
- *  Defines the time when all of the requested words have been typed
- */
-clock_t FinishTime;
-
-/*
  *  Defines the total count of words
  */
 int TotalWordsCount;

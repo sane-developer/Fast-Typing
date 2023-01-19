@@ -3,7 +3,6 @@
 #include "TrainingViewVariables.h"
 #include "../summary/SummaryViewBehavior.h"
 #include "../../extensions/words/Dictionary.h"
-#include "../../extensions/strings/Compare.h"
 #include "../../extensions/signals/Detach.h"
 
 void initialize_training_view_variables(int length, int count)
@@ -47,7 +46,7 @@ void initialize_training_view_widgets(GtkBuilder *builder)
 
     gtk_label_set_text(TotalWordsCountLabel, g_strdup_printf("%i", TotalWordsCount));
     
-    g_signal_connect(WordInput, "changed", G_CALLBACK(changed_input), NULL);
+    g_signal_connect(WordInput, "activate", G_CALLBACK(changed_input), NULL);
 }
 
 void render_training_view_ui(int wordsLength, int wordsCount)
@@ -71,7 +70,22 @@ void render_training_view_ui(int wordsLength, int wordsCount)
 
 void dispose_training_view_ui()
 {
-    free(AvailableWords);
+    g_print("disposing");
+
+    StartTime = 0;
+
+    CorrectWordsCount = 0;
+
+    IncorrectWordsCount = 0;
+
+    WrittenWordsCount = 0;
+
+    for (int i = 0; i < TotalWordsCount; i++) 
+    {
+        g_free(AvailableWords[i]);
+    }
+
+    g_free(AvailableWords);
 
     disconnect_parent_signals(TrainingMainWindow);
 
@@ -80,9 +94,13 @@ void dispose_training_view_ui()
 
 void changed_input(GtkWidget *widget, gpointer data) 
 {
-    const char *text = gtk_entry_get_text(WordInput);
+    size_t len = strlen(CurrentWord);
 
-    if (strcmp(text, CurrentWord) == 0)
+    gchar *word = g_strndup(CurrentWord , len - 1);
+    
+    const gchar *text = gtk_entry_get_text(WordInput);
+
+    if (strcmp(text, word) == 0)
     {
         gtk_entry_set_text(WordInput, "");
 
@@ -90,17 +108,35 @@ void changed_input(GtkWidget *widget, gpointer data)
 
         gtk_label_set_text(WrittenWordsCountLabel, g_strdup_printf("%i", WrittenWordsCount));
 
-        CurrentWord = AvailableWords[WrittenWordsCount];
+        if (WrittenWordsCount <= TotalWordsCount)
+        {
+            CurrentWord = AvailableWords[WrittenWordsCount];
+        }
+        else
+        {
+            CurrentWord = NULL;
+        }
 
-        gtk_label_set_text(WordDisplayLabel, CurrentWord);
+        gtk_label_set_text(WordDisplayLabel, CurrentWord);    
     }
+    
+    g_free(word);
 
     if (WrittenWordsCount == TotalWordsCount)
     {
-        float accuracy = CorrectWordsCount / TotalWordsCount;
-
-        dispose_training_view_ui();
-
-        render_summary_view_ui(CorrectWordsCount, IncorrectWordsCount, accuracy);
+        move_to_summary_view();
     }
+}
+
+void move_to_summary_view()
+{
+    int correctWords = CorrectWordsCount;
+
+    int incorrectWords = IncorrectWordsCount;
+
+    float accuracy = CorrectWordsCount / TotalWordsCount * 100;
+
+    dispose_training_view_ui();
+
+    render_summary_view_ui(correctWords, incorrectWords, accuracy);
 }
