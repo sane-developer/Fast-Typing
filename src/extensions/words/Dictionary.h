@@ -21,3 +21,8 @@ struct Dictionary* read_words_from_file(const char*);
  *  Gets {count} random words each of length equal {length} from the dictionary
  */
 char** get_random_words(struct Dictionary*, int, int);
+
+/*
+ *  Disposes the randomly chosen words
+ */
+void dispose_words(char**, int);

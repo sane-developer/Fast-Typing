@@ -29,12 +29,19 @@ struct Dictionary* read_words_from_file(const char* file_name)
         //  Gets the length of the line
         //
         int len = strlen(line);
-
-        //  Replaces the newline character with a null terminator
+        
+        //  Removes the last character if it's a newline or null terminator
         //
-        if (line[len - 1] == '\n') 
+        if(line[len-1] == '\n' || line[len-1] == '\0')
         {
-            line[len - 1] = '\0';
+            line[len-1] = '\0';   
+        }
+        
+        //  Removes the second last character if it's a newline or null terminator
+        //
+        if(line[len-2] == '\n' || line[len-2] == '\0')
+        {
+            line[len-2] = '\0';
         }
 
         //  Increases the size of the words array
@@ -123,4 +130,14 @@ char** get_random_words(struct Dictionary* words, int n, int m)
     }
 
     return selected_words;
+}
+
+void dispose_words(char **words, int count)
+{
+    for (int i = 0; i < count; i++) 
+    {
+        free(words[i]);
+    }
+
+    free(words);
 }

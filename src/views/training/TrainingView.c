@@ -16,10 +16,10 @@ void initialize_training_view_variables(int length, int count)
     const int supportedCount = count > 1000 ? 1000 : count;
 
     AvailableWords = get_random_words(dictionary, supportedCount, supportedLength);
+    
+    g_free(dictionary);
 
-    free(dictionary);
-
-    CurrentWord = AvailableWords[0];
+    CurrentWord = g_strchomp(AvailableWords[0]);
 
     TotalWordsCount = supportedCount;
 
@@ -70,8 +70,6 @@ void render_training_view_ui(int wordsLength, int wordsCount)
 
 void dispose_training_view_ui()
 {
-    g_print("disposing");
-
     StartTime = 0;
 
     CorrectWordsCount = 0;
@@ -80,47 +78,32 @@ void dispose_training_view_ui()
 
     WrittenWordsCount = 0;
 
-    for (int i = 0; i < TotalWordsCount; i++) 
-    {
-        g_free(AvailableWords[i]);
-    }
-
-    g_free(AvailableWords);
+    dispose_words(AvailableWords, TotalWordsCount);
 
     disconnect_parent_signals(TrainingMainWindow);
 
     gtk_widget_destroy(TrainingMainWindow);
 }
 
-void changed_input(GtkWidget *widget, gpointer data) 
+void changed_input() 
 {
-    size_t len = strlen(CurrentWord);
-
-    gchar *word = g_strndup(CurrentWord , len - 1);
-    
     const gchar *text = gtk_entry_get_text(WordInput);
 
-    if (strcmp(text, word) == 0)
+    if (strcmp(text, CurrentWord) == 0)
     {
-        gtk_entry_set_text(WordInput, "");
-
         WrittenWordsCount++;
 
         gtk_label_set_text(WrittenWordsCountLabel, g_strdup_printf("%i", WrittenWordsCount));
 
-        if (WrittenWordsCount <= TotalWordsCount)
+        if (WrittenWordsCount < TotalWordsCount)
         {
-            CurrentWord = AvailableWords[WrittenWordsCount];
-        }
-        else
-        {
-            CurrentWord = NULL;
-        }
+            CurrentWord = g_strchomp(AvailableWords[WrittenWordsCount]);
 
-        gtk_label_set_text(WordDisplayLabel, CurrentWord);    
+            gtk_label_set_text(WordDisplayLabel, CurrentWord);
+
+            gtk_entry_set_text(WordInput, "");
+        }
     }
-    
-    g_free(word);
 
     if (WrittenWordsCount == TotalWordsCount)
     {
