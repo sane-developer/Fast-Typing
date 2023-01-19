@@ -7,9 +7,7 @@
 
 void initialize_training_view_variables(int length, int count)
 {
-    const char *path = "/home/krzysztof/Projects/Fast-Typing-Training/src/resources/words.txt";
-
-    struct Dictionary *dictionary = read_words_from_file(path);
+    struct Dictionary *dictionary = read_words_from_file("words.txt");
 
     const int supportedLength = length > 12 ? 12 : length;
 
@@ -51,9 +49,7 @@ void initialize_training_view_widgets(GtkBuilder *builder)
 
 void render_training_view_ui(int wordsLength, int wordsCount)
 {
-    const char *path = "Training.glade";
-
-    GtkBuilder *builder = gtk_builder_new_from_file(path);
+    GtkBuilder *builder = gtk_builder_new_from_file("Training.glade");
 
     initialize_training_view_variables(wordsLength, wordsCount);
 

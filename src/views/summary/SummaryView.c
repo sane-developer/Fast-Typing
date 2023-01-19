@@ -32,9 +32,7 @@ void initialize_summary_view_widgets(GtkBuilder *builder, int correctCount, int 
 
 void render_summary_view_ui(int correctWords, int incorrectWords, float accuracy)
 {
-    const gchar* path = "Summary.glade";
-
-    GtkBuilder *builder = gtk_builder_new_from_file(path);
+    GtkBuilder *builder = gtk_builder_new_from_file("Summary.glade");
 
     initialize_summary_view_widgets(builder, correctWords, incorrectWords, accuracy);
 
