@@ -32,7 +32,7 @@ void initialize_summary_view_widgets(GtkBuilder *builder, int correctCount, int 
 
 void render_summary_view_ui(int correctWords, int incorrectWords, float accuracy)
 {
-    const gchar* path = "/home/krzysztof/Projects/Fast-Typing-Training/src/resources/Summary.glade";
+    const gchar* path = "Summary.glade";
 
     GtkBuilder *builder = gtk_builder_new_from_file(path);
 

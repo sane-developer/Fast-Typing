@@ -42,6 +42,8 @@ set(RESOURCES
     resources/words.txt
 )
 
+file(COPY ${RESOURCES} DESTINATION ${CMAKE_BINARY_DIR})
+
 add_executable(Fast-Typing-Training ${SOURCES} ${HEADERS} ${RESOURCES})
 
 target_link_libraries(Fast-Typing-Training ${GTK3_LIBRARIES})

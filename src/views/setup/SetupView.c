@@ -18,7 +18,7 @@ void initialize_setup_view_widgets(GtkBuilder *builder)
 
 void render_setup_view_ui()
 {
-    const gchar* path = "/home/krzysztof/Projects/Fast-Typing-Training/src/resources/Setup.glade";
+    const gchar* path = "Setup.glade";
 
     GtkBuilder *builder = gtk_builder_new_from_file(path);
 

@@ -51,7 +51,7 @@ void initialize_training_view_widgets(GtkBuilder *builder)
 
 void render_training_view_ui(int wordsLength, int wordsCount)
 {
-    const char *path = "/home/krzysztof/Projects/Fast-Typing-Training/src/resources/Training.glade";
+    const char *path = "Training.glade";
 
     GtkBuilder *builder = gtk_builder_new_from_file(path);
 
