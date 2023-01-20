@@ -27,7 +27,7 @@ void initialize_setup_view_widgets(GtkBuilder *builder)
 
 void render_setup_view_ui()
 {
-    GtkBuilder *builder = gtk_builder_new_from_file("Setup.glade");
+    GtkBuilder *builder = gtk_builder_new_from_file("setup.glade");
 
     initialize_setup_view_widgets(builder);
 

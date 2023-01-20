@@ -5,15 +5,17 @@
 #include "../../extensions/words/Dictionary.h"
 #include "../../extensions/signals/Detach.h"
 
-void initialize_training_view_variables(char* length)
+void initialize_training_view_variables(char* mode)
 {
     struct Dictionary *dictionary = read_words_from_file("words.txt");
 
-    struct WordRange *range = get_range_from_string(length);
+    struct WordRange *range = get_range_from_string(mode);
 
     AvailableWords = get_randomized_words(dictionary, range);
     
     CurrentWord = g_strchomp(AvailableWords[0]);
+
+    GameMode = mode;
 
     g_free(dictionary);
 
@@ -45,11 +47,11 @@ void initialize_training_view_widgets(GtkBuilder *builder)
     g_timeout_add(1000, update_remaining_time, RemainingTimeLabel);
 }
 
-void render_training_view_ui(char* wordsLength)
+void render_training_view_ui(char* mode)
 {
-    GtkBuilder *builder = gtk_builder_new_from_file("Training.glade");
+    GtkBuilder *builder = gtk_builder_new_from_file("training.glade");
 
-    initialize_training_view_variables(wordsLength);
+    initialize_training_view_variables(mode);
 
     initialize_training_view_widgets(builder);
 
@@ -118,7 +120,7 @@ void move_to_summary_view()
 
     dispose_training_view_ui();
 
-    render_summary_view_ui(correctWords, incorrectWords, accuracy);
+    render_summary_view_ui(GameMode, correctWords, incorrectWords, accuracy);
 }
 
 void on_window_realize() 

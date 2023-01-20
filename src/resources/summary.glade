@@ -18,7 +18,7 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Correct words count</property>
+            <property name="label" translatable="yes">Correct words</property>
           </object>
           <packing>
             <property name="left-attach">0</property>
@@ -27,7 +27,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="correct-count">
+          <object class="GtkLabel" id="correct-words-count">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
           </object>
@@ -40,7 +40,7 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Incorrect words count</property>
+            <property name="label" translatable="yes">Incorrect words</property>
           </object>
           <packing>
             <property name="left-attach">0</property>
@@ -49,7 +49,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="incorrect-count">
+          <object class="GtkLabel" id="incorrect-words-count">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
           </object>
@@ -84,7 +84,7 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Best time</property>
+            <property name="label" translatable="yes">Best WPM</property>
           </object>
           <packing>
             <property name="left-attach">0</property>
@@ -93,7 +93,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="best-time">
+          <object class="GtkLabel" id="best-wpm">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
           </object>
@@ -106,7 +106,7 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Average time</property>
+            <property name="label" translatable="yes">Average WPM</property>
           </object>
           <packing>
             <property name="left-attach">0</property>
@@ -115,7 +115,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="average-time">
+          <object class="GtkLabel" id="average-wpm">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
           </object>
@@ -128,7 +128,7 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Worst time</property>
+            <property name="label" translatable="yes">Worst WPM</property>
           </object>
           <packing>
             <property name="left-attach">0</property>
@@ -137,7 +137,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="worst-time">
+          <object class="GtkLabel" id="worst-wpm">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
           </object>
@@ -147,7 +147,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="move-setup">
+          <object class="GtkButton" id="move-to-setup">
             <property name="label" translatable="yes">Try again</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>

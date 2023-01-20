@@ -21,6 +21,11 @@ int CorrectWordsCount;
 int IncorrectWordsCount;
 
 /*
+ *  Defines the game mode
+ */
+char *GameMode;
+
+/*
  *  Defines the next word to type
  */
 char *CurrentWord;

@@ -6,6 +6,8 @@
         "compare.h": "c",
         "detach.h": "c",
         "gtk.h": "c",
-        "trainingviewvariables.h": "c"
+        "trainingviewvariables.h": "c",
+        "statistics.h": "c",
+        "stdio.h": "c"
     }
 }

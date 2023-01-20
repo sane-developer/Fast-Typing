@@ -18,6 +18,7 @@ set(SOURCES
     main.c
     extensions/signals/Detach.c
     extensions/words/Dictionary.c
+    extensions/statistics/Statistics.c
     views/setup/SetupView.c
     views/summary/SummaryView.c
     views/training/TrainingView.c
@@ -26,6 +27,7 @@ set(SOURCES
 set(HEADERS
     extensions/signals/Detach.h
     extensions/words/Dictionary.h
+    extensions/statistics/Statistics.h
     views/setup/SetupViewBehavior.h
     views/setup/SetupViewWidgets.h
     views/summary/SummaryViewBehavior.h
@@ -36,9 +38,10 @@ set(HEADERS
 )
 
 set(RESOURCES
-    resources/Setup.glade
-    resources/Summary.glade
-    resources/Training.glade
+    resources/setup.glade
+    resources/summary.glade
+    resources/training.glade
+    resources/statistics.txt
     resources/words.txt
 )
 

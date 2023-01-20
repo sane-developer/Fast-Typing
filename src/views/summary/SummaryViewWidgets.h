@@ -23,19 +23,19 @@ GtkLabel* TypingAccuracyLabel;
 /*
  *  Defines the widget which represents the best time label 
  */
-GtkLabel* BestTimeLabel;
+GtkLabel* BestWpmLabel;
 
 /*
  *  Defines the widget which represents the average time label 
  */
-GtkLabel* AverageTimeLabel;
+GtkLabel* AverageWpmLabel;
 
 /*
  *  Defines the widget which represents the worst time label 
  */
-GtkLabel* WorstTimeLabel;
+GtkLabel* WorstWpmLabel;
 
 /*
  *  Defines the widget which represents the settings reset button 
  */
-GtkButton* SetupResetButton;
+GtkButton* MoveToSetupButton;
