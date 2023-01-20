@@ -5,6 +5,7 @@
         "signalsdetach.h": "c",
         "compare.h": "c",
         "detach.h": "c",
-        "gtk.h": "c"
+        "gtk.h": "c",
+        "trainingviewvariables.h": "c"
     }
 }

@@ -6,14 +6,19 @@
 GtkWidget* SetupMainWindow;
 
 /*
- *  Defines the widget which represents the words length
+ *  Defines the widget which represents the all words radio button
  */
-GtkEntry* WordsLengthInput;
+GtkRadioButton* AllWordsButton;
 
 /*
- *  Defines the widget which represents the words amount
+ *  Defines the widget which represents the short words radio button
  */
-GtkEntry* WordsAmountInput;
+GtkRadioButton* ShortWordsButton;
+
+/*
+ *  Defines the widget which represents the long words radio button
+ */
+GtkRadioButton* LongWordsButton;
 
 /*
  *  Defines the widget which represents the start training trigger

@@ -1,9 +1,4 @@
 /*
- *  Initializes every UI component and assigns each component's default state
- */
-void initialize_setup_view_widgets(GtkBuilder*);
-
-/*
  *  Renders the setup view UI components
  */
 void render_setup_view_ui();
@@ -14,6 +9,26 @@ void render_setup_view_ui();
 void dispose_setup_view_ui();
 
 /*
+ *  Initializes every UI component and assigns each component's default state
+ */
+void initialize_setup_view_widgets(GtkBuilder*);
+
+/*
  *  Switches view context to Training view
  */
 void move_to_training_view();
+
+/*
+ *  Switches chosen word range to all words
+ */
+void on_all_words_toggled();
+
+/*
+ *  Switches chosen word range to short words
+ */
+void on_short_words_toggled();
+
+/*
+ *  Switches chosen word range to long words
+ */
+void on_long_words_toggled();

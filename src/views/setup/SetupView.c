@@ -1,5 +1,6 @@
 #include "SetupViewWidgets.h"
 #include "SetupViewBehavior.h"
+#include "SetupViewVariables.h"
 #include "../training/TrainingViewBehavior.h"
 #include "../../extensions/signals/Detach.h"
 
@@ -7,11 +8,19 @@ void initialize_setup_view_widgets(GtkBuilder *builder)
 {
 	SetupMainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "setup-window"));
 
-    WordsLengthInput = GTK_ENTRY(gtk_builder_get_object(builder, "words-length"));
+    AllWordsButton = GTK_RADIO_BUTTON(gtk_builder_get_object(builder, "all-words"));
 
-    WordsAmountInput = GTK_ENTRY(gtk_builder_get_object(builder, "words-count"));
+    ShortWordsButton = GTK_RADIO_BUTTON(gtk_builder_get_object(builder, "short-words"));
 
-    MoveToTrainingViewButton = GTK_BUTTON(gtk_builder_get_object(builder, "move-training"));
+    LongWordsButton = GTK_RADIO_BUTTON(gtk_builder_get_object(builder, "long-words"));
+
+    MoveToTrainingViewButton = GTK_BUTTON(gtk_builder_get_object(builder, "move-to-training"));
+
+    g_signal_connect(AllWordsButton, "toggled", G_CALLBACK(on_all_words_toggled), NULL);
+
+    g_signal_connect(ShortWordsButton, "toggled", G_CALLBACK(on_short_words_toggled), NULL);
+
+    g_signal_connect(LongWordsButton, "toggled", G_CALLBACK(on_long_words_toggled), NULL);
 
     g_signal_connect(MoveToTrainingViewButton, "clicked", G_CALLBACK(move_to_training_view), NULL);
 }
@@ -40,11 +49,37 @@ void dispose_setup_view_ui()
 
 void move_to_training_view()
 {
-    int wordsLength = atoi(gtk_entry_get_text(WordsLengthInput));
-
-    int wordsAmount = atoi(gtk_entry_get_text(WordsAmountInput));
-
     dispose_setup_view_ui();
 
-    render_training_view_ui(wordsLength, wordsAmount);
+    render_training_view_ui(ChosenWordsLength);
+}
+
+void on_all_words_toggled()
+{
+    int value = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(AllWordsButton));
+
+    if (value)
+    {
+        ChosenWordsLength = "all";
+    } 
+}
+
+void on_short_words_toggled()
+{
+    int value = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ShortWordsButton));
+
+    if (value)
+    {
+        ChosenWordsLength = "short";
+    }
+}
+
+void on_long_words_toggled()
+{
+    int value = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(LongWordsButton));
+
+    if (value)
+    {
+        ChosenWordsLength = "long";
+    }
 }

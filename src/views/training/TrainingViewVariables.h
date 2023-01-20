@@ -6,9 +6,9 @@
 clock_t StartTime;
 
 /*
- *  Defines the total count of words
+ *  Defines the total time for the training (60s)
  */
-int TotalWordsCount;
+clock_t RemainingTime = 60000;
 
 /*
  *  Defines the written count of words

@@ -21,11 +21,6 @@ GtkEntry* WordInput;
 GtkLabel* WrittenWordsCountLabel;
 
 /*
- *  Defines the widget which represents the total words display label
- */
-GtkLabel* TotalWordsCountLabel;
-
-/*
  *  Defines the widget which represents the accuracy label
  */
 GtkLabel* AccuracyLabel;

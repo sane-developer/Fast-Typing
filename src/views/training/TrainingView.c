@@ -5,21 +5,19 @@
 #include "../../extensions/words/Dictionary.h"
 #include "../../extensions/signals/Detach.h"
 
-void initialize_training_view_variables(int length, int count)
+void initialize_training_view_variables(char* length)
 {
     struct Dictionary *dictionary = read_words_from_file("words.txt");
 
-    const int supportedLength = length > 12 ? 12 : length;
+    struct WordRange *range = get_range_from_string(length);
 
-    const int supportedCount = count > 1000 ? 1000 : count;
-
-    AvailableWords = get_random_words(dictionary, supportedCount, supportedLength);
+    AvailableWords = get_randomized_words(dictionary, range);
     
     g_free(dictionary);
 
-    CurrentWord = g_strchomp(AvailableWords[0]);
+    g_free(range);
 
-    TotalWordsCount = supportedCount;
+    CurrentWord = g_strchomp(AvailableWords[0]);
 
     StartTime = clock();
 }
@@ -34,24 +32,20 @@ void initialize_training_view_widgets(GtkBuilder *builder)
 
     WrittenWordsCountLabel = GTK_LABEL(gtk_builder_get_object(builder, "written-count"));
 
-    TotalWordsCountLabel = GTK_LABEL(gtk_builder_get_object(builder, "total-count"));
-
     AccuracyLabel = GTK_LABEL(gtk_builder_get_object(builder, "accuracy"));
 
     ElapsedTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "elapsed-time"));
 
     gtk_label_set_text(WordDisplayLabel, CurrentWord);
-
-    gtk_label_set_text(TotalWordsCountLabel, g_strdup_printf("%i", TotalWordsCount));
     
     g_signal_connect(WordInput, "activate", G_CALLBACK(changed_input), NULL);
 }
 
-void render_training_view_ui(int wordsLength, int wordsCount)
+void render_training_view_ui(char* wordsLength)
 {
     GtkBuilder *builder = gtk_builder_new_from_file("Training.glade");
 
-    initialize_training_view_variables(wordsLength, wordsCount);
+    initialize_training_view_variables(wordsLength);
 
     initialize_training_view_widgets(builder);
 
@@ -72,9 +66,9 @@ void dispose_training_view_ui()
 
     IncorrectWordsCount = 0;
 
+    dispose_words(AvailableWords, WrittenWordsCount);
+    
     WrittenWordsCount = 0;
-
-    dispose_words(AvailableWords, TotalWordsCount);
 
     disconnect_parent_signals(TrainingMainWindow);
 
@@ -85,26 +79,36 @@ void changed_input()
 {
     const gchar *text = gtk_entry_get_text(WordInput);
 
-    if (strcmp(text, CurrentWord) == 0)
+    if (strlen(text) == strlen(CurrentWord))
     {
         WrittenWordsCount++;
+        
+        if (strcmp(text, CurrentWord) == 0)
+        {
+            CorrectWordsCount++;
+        }
+        else
+        {
+            IncorrectWordsCount++;
+        }
+
+        int accuracy = (int)((float)CorrectWordsCount / (float)WrittenWordsCount * 100);
+
+        gtk_label_set_text(AccuracyLabel, g_strdup_printf("%i%%", accuracy));
 
         gtk_label_set_text(WrittenWordsCountLabel, g_strdup_printf("%i", WrittenWordsCount));
 
-        if (WrittenWordsCount < TotalWordsCount)
-        {
-            CurrentWord = g_strchomp(AvailableWords[WrittenWordsCount]);
+        CurrentWord = g_strchomp(AvailableWords[WrittenWordsCount]);
 
-            gtk_label_set_text(WordDisplayLabel, CurrentWord);
+        gtk_label_set_text(WordDisplayLabel, CurrentWord);
 
-            gtk_entry_set_text(WordInput, "");
-        }
+        gtk_entry_set_text(WordInput, "");
     }
 
-    if (WrittenWordsCount == TotalWordsCount)
-    {
-        move_to_summary_view();
-    }
+    // if (WrittenWordsCount == TotalWordsCount)
+    // {
+    //     move_to_summary_view();
+    // }
 }
 
 void move_to_summary_view()
@@ -113,7 +117,7 @@ void move_to_summary_view()
 
     int incorrectWords = IncorrectWordsCount;
 
-    float accuracy = CorrectWordsCount / TotalWordsCount * 100;
+    float accuracy = (float)CorrectWordsCount / (float)WrittenWordsCount * 100;
 
     dispose_training_view_ui();
 

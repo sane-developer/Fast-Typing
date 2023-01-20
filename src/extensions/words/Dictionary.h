@@ -13,14 +13,33 @@ struct Dictionary
 };
 
 /*
+ *  Defines the word length range struct
+ */
+struct WordRange 
+{
+    int lowestLength;
+    int highestLength;
+};
+
+/*
  *  Gets the words from the file of specified name
  */
 struct Dictionary* read_words_from_file(const char*);
 
 /*
- *  Gets {count} random words each of length equal {length} from the dictionary
+ *  Gets the word range from the specified string
  */
-char** get_random_words(struct Dictionary*, int, int);
+struct WordRange* get_range_from_string(char*);
+
+/*
+ *  Gets the number of words that fall in the specified range
+ */
+int get_count_of_words_in_range(struct Dictionary*, struct WordRange*);
+
+/*
+ *  Gets randomized words of specified range
+ */
+char** get_randomized_words(struct Dictionary*, struct WordRange*);
 
 /*
  *  Disposes the randomly chosen words
