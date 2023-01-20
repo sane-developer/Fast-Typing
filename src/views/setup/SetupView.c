@@ -25,10 +25,17 @@ void initialize_setup_view_widgets(GtkBuilder *builder)
     g_signal_connect(MoveToTrainingViewButton, "clicked", G_CALLBACK(move_to_training_view), NULL);
 }
 
+void initialize_setup_view_variables()
+{
+    ChosenMode = 0;
+}
+
 void render_setup_view_ui()
 {
     GtkBuilder *builder = gtk_builder_new_from_file("setup.glade");
 
+    initialize_setup_view_variables();
+    
     initialize_setup_view_widgets(builder);
 
     gtk_builder_connect_signals(builder, NULL); 
@@ -51,7 +58,7 @@ void move_to_training_view()
 {
     dispose_setup_view_ui();
 
-    render_training_view_ui(ChosenWordsLength);
+    render_training_view_ui(ChosenMode);
 }
 
 void on_all_words_toggled()
@@ -60,8 +67,8 @@ void on_all_words_toggled()
 
     if (value)
     {
-        ChosenWordsLength = "all";
-    } 
+        ChosenMode = 0;
+    }
 }
 
 void on_short_words_toggled()
@@ -70,7 +77,7 @@ void on_short_words_toggled()
 
     if (value)
     {
-        ChosenWordsLength = "short";
+        ChosenMode = 1;
     }
 }
 
@@ -80,6 +87,6 @@ void on_long_words_toggled()
 
     if (value)
     {
-        ChosenWordsLength = "long";
+        ChosenMode = 2;
     }
 }

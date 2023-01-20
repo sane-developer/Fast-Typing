@@ -5,7 +5,7 @@
 #include "../../extensions/words/Dictionary.h"
 #include "../../extensions/signals/Detach.h"
 
-void initialize_training_view_variables(char* mode)
+void initialize_training_view_variables(int mode)
 {
     struct Dictionary *dictionary = read_words_from_file("words.txt");
 
@@ -47,7 +47,7 @@ void initialize_training_view_widgets(GtkBuilder *builder)
     g_timeout_add(1000, update_remaining_time, RemainingTimeLabel);
 }
 
-void render_training_view_ui(char* mode)
+void render_training_view_ui(int mode)
 {
     GtkBuilder *builder = gtk_builder_new_from_file("training.glade");
 

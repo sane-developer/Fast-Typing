@@ -41,7 +41,6 @@ set(RESOURCES
     resources/setup.glade
     resources/summary.glade
     resources/training.glade
-    resources/statistics.txt
     resources/words.txt
 )
 

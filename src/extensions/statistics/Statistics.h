@@ -7,7 +7,7 @@
  */
 struct TypeStatistics
 {
-    const char* mode;
+    int mode;
     int best_words_per_minute_score;
     int worst_words_per_minute_score;
     int average_words_per_minute_score;
@@ -16,9 +16,9 @@ struct TypeStatistics
 /*
  *  Archives the training data into the archive file
  */
-void archive_statistics(const char*, const char*, int);
+void archive_statistics(char*, int, int);
 
 /*
  *  Retrieves the statistics of currently played mode from archive file
  */
-struct TypeStatistics* retrieve_statistics_by_mode(const char*, const char*);
+struct TypeStatistics* retrieve_statistics_by_mode(char*, int);

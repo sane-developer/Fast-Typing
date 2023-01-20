@@ -1,4 +1,4 @@
 /*
  *  Defines the chosen words length range
  */
-char* ChosenWordsLength;
+int ChosenMode;

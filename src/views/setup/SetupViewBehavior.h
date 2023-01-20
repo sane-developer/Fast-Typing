@@ -14,6 +14,11 @@ void dispose_setup_view_ui();
 void initialize_setup_view_widgets(GtkBuilder*);
 
 /*
+ *  Initializes every required variable to set up the view widgets
+ */
+void initialize_setup_view_variables();
+
+/*
  *  Switches view context to Training view
  */
 void move_to_training_view();

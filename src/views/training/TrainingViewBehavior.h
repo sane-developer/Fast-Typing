@@ -1,7 +1,7 @@
 /*
  *  Initializes every required variable to set up the view widgets
  */
-void initialize_training_view_variables(char*);
+void initialize_training_view_variables(int);
 
 /*
  *  Initializes every UI component and assigns each component's default state
@@ -11,7 +11,7 @@ void initialize_training_view_widgets(GtkBuilder*);
 /*
  *  Renders the training view UI components
  */
-void render_training_view_ui(char*);
+void render_training_view_ui(int);
 
 /*
  *  Destroys the training view UI and frees allocated memory if any

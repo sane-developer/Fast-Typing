@@ -29,7 +29,7 @@ struct Dictionary* read_words_from_file(const char*);
 /*
  *  Gets the word range from the specified string
  */
-struct WordRange* get_range_from_string(char*);
+struct WordRange* get_range_from_string(int);
 
 /*
  *  Gets the number of words that fall in the specified range

@@ -37,7 +37,7 @@ void initialize_summary_view_widgets(GtkBuilder *builder)
     g_signal_connect(MoveToSetupButton, "clicked", G_CALLBACK(move_to_setup_view), NULL);
 }
 
-void initialize_summary_view_variables(const char* mode, int correctWords, int incorrectWords, float accuracy)
+void initialize_summary_view_variables(int mode, int correctWords, int incorrectWords, float accuracy)
 {
     ArchiveFileName = "statistics.txt";
 
@@ -49,10 +49,27 @@ void initialize_summary_view_variables(const char* mode, int correctWords, int i
 
     WordsPerMinute = correctWords + incorrectWords;
 
+    archive_statistics(ArchiveFileName, mode, WordsPerMinute);
+
     GameModeStatistics = retrieve_statistics_by_mode(ArchiveFileName, mode);
+
+    if (GameModeStatistics->best_words_per_minute_score == 0)
+    {
+        GameModeStatistics->best_words_per_minute_score = WordsPerMinute;
+    }
+
+    if (GameModeStatistics->worst_words_per_minute_score == 0)
+    {
+        GameModeStatistics->worst_words_per_minute_score = WordsPerMinute;
+    }
+
+    if (GameModeStatistics->average_words_per_minute_score == 0)
+    {
+        GameModeStatistics->average_words_per_minute_score = WordsPerMinute;
+    }
 }
 
-void render_summary_view_ui(const char* mode, int correctWords, int incorrectWords, float accuracy)
+void render_summary_view_ui(int mode, int correctWords, int incorrectWords, float accuracy)
 {
     GtkBuilder *builder = gtk_builder_new_from_file("summary.glade");
 
@@ -82,8 +99,6 @@ void dispose_summary_view_ui()
 
 void move_to_setup_view()
 {
-    archive_statistics(ArchiveFileName, GameModeStatistics->mode, WordsPerMinute);
-
     dispose_summary_view_ui();
     
     render_setup_view_ui();

@@ -1,6 +1,6 @@
 if [ -e build ] ; 
     then 
-        rm -r build/*
+        find build/ -not -name "statistics.txt" -delete
     else 
         mkdir build
 fi
@@ -12,5 +12,3 @@ cmake ../src
 make
 
 ./Fast-Typing-Training
-
-

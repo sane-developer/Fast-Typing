@@ -1,6 +1,6 @@
 #include "Statistics.h"
 
-void archive_statistics(const char* filename, const char* mode, int words_per_minute_score) 
+void archive_statistics(char* filename, int mode, int words_per_minute_score) 
 {
     //  Opens file "archive.txt" in "append" mode
     //
@@ -10,19 +10,20 @@ void archive_statistics(const char* filename, const char* mode, int words_per_mi
     //
     if (archive == NULL) 
     {
+        printf("Archive file doesn't exist");
         return;
     }
 
     //  Writes the statistics data in the format "{mode}, {words_per_minute_score}\n" to the file
     //
-    fprintf(archive, "%s, %d\n", mode, words_per_minute_score);
+    fprintf(archive, "%d, %d\n", mode, words_per_minute_score);
     
     //  Closes the file 
     //
     fclose(archive);
 }
 
-struct TypeStatistics* retrieve_statistics_by_mode(const char* filename, const char* mode)
+struct TypeStatistics* retrieve_statistics_by_mode(char* filename, int mode)
 {
     //  Initializes the best words per minute score
     //
@@ -48,7 +49,28 @@ struct TypeStatistics* retrieve_statistics_by_mode(const char* filename, const c
     //
     if (archive == NULL) 
     {
-        return NULL;
+        //  Creates the file of specified name
+        //
+        FILE* archive = fopen(filename, "a");
+
+        //  Closes the file after creation
+        //
+        fclose(archive);
+
+        //  Allocates memory for the statistics
+        //
+        struct TypeStatistics* stats = malloc(sizeof(struct TypeStatistics));
+        
+        //  Fills the default data
+        //
+        stats->mode = mode;
+        stats->best_words_per_minute_score = 0;
+        stats->worst_words_per_minute_score = 0;
+        stats->average_words_per_minute_score = 0;
+        
+        //  Returns the struct
+        //
+        return stats;
     }
 
     //  Reads the file line by line
@@ -61,7 +83,7 @@ struct TypeStatistics* retrieve_statistics_by_mode(const char* filename, const c
     {
         //  Splits the line into mode and words_per_minute_score
         //
-        char mode_buffer[256];
+        int game_mode;
         
         //  Declares the words per minut score
         //
@@ -69,11 +91,11 @@ struct TypeStatistics* retrieve_statistics_by_mode(const char* filename, const c
         
         //  Gets the variables from the line
         //
-        sscanf(line, "%s, %d", mode_buffer, &words_per_minute_score);
+        sscanf(line, "%d, %d", &game_mode, &words_per_minute_score);
 
         //  Checks if the mode matches the mode we're looking for
         //
-        if (strcmp(mode_buffer, mode) == 0) 
+        if (mode == game_mode)
         {
             //  Update the statistics
             //
@@ -118,10 +140,14 @@ struct TypeStatistics* retrieve_statistics_by_mode(const char* filename, const c
     //
     struct TypeStatistics* stats = malloc(sizeof(struct TypeStatistics));
     
+    //  Fills the default data
+    //
     stats->mode = mode;
     stats->best_words_per_minute_score = best_words_per_minute_score;
     stats->worst_words_per_minute_score = worst_words_per_minute_score;
     stats->average_words_per_minute_score = average_words_per_minute_score;
     
+    //  Returns the struct
+    //
     return stats;
 }

@@ -48,7 +48,7 @@ struct Dictionary* read_words_from_file(const char* file_name)
     return words;
 }
 
-struct WordRange* get_range_from_string(char* rangeType)
+struct WordRange* get_range_from_string(int rangeType)
 {
     //  Allocates memory for the struct WordRange
     //
@@ -56,7 +56,7 @@ struct WordRange* get_range_from_string(char* rangeType)
 
     //  Checks if the rangeType string is equal to "all"
     //
-    if (strcmp(rangeType, "all") == 0)
+    if (rangeType == 0)
     {
         //  Sets the lowest and highest length of the range to 1 and 12 respectively
         //
@@ -66,7 +66,7 @@ struct WordRange* get_range_from_string(char* rangeType)
 
     //  Checks if the rangeType string is equal to "short"
     //
-    else if (strcmp(rangeType, "short") == 0)
+    else if (rangeType == 1)
     {
         //  Sets the lowest and highest length of the range to 1 and 6 respectively
         //
