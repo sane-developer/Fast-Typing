@@ -27,3 +27,13 @@ void changed_input();
  *  Allows to switch context to summary view
  */
 void move_to_summary_view();
+
+/*
+ *  Initializes the end time for the stopwatch
+ */
+void on_window_realize();
+
+/*
+ *  Updates the remaining time each second
+ */
+int update_remaining_time(gpointer);

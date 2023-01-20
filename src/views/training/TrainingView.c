@@ -13,13 +13,11 @@ void initialize_training_view_variables(char* length)
 
     AvailableWords = get_randomized_words(dictionary, range);
     
+    CurrentWord = g_strchomp(AvailableWords[0]);
+
     g_free(dictionary);
 
     g_free(range);
-
-    CurrentWord = g_strchomp(AvailableWords[0]);
-
-    StartTime = clock();
 }
 
 void initialize_training_view_widgets(GtkBuilder *builder)
@@ -34,11 +32,17 @@ void initialize_training_view_widgets(GtkBuilder *builder)
 
     AccuracyLabel = GTK_LABEL(gtk_builder_get_object(builder, "accuracy"));
 
-    ElapsedTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "elapsed-time"));
+    RemainingTimeLabel = GTK_LABEL(gtk_builder_get_object(builder, "elapsed-time"));
 
     gtk_label_set_text(WordDisplayLabel, CurrentWord);
-    
+
+    gtk_label_set_text(RemainingTimeLabel, "60 sec");
+
+    g_signal_connect(TrainingMainWindow, "realize", G_CALLBACK(on_window_realize), NULL);
+
     g_signal_connect(WordInput, "activate", G_CALLBACK(changed_input), NULL);
+
+    g_timeout_add(1000, update_remaining_time, RemainingTimeLabel);
 }
 
 void render_training_view_ui(char* wordsLength)
@@ -60,8 +64,6 @@ void render_training_view_ui(char* wordsLength)
 
 void dispose_training_view_ui()
 {
-    StartTime = 0;
-
     CorrectWordsCount = 0;
 
     IncorrectWordsCount = 0;
@@ -104,11 +106,6 @@ void changed_input()
 
         gtk_entry_set_text(WordInput, "");
     }
-
-    // if (WrittenWordsCount == TotalWordsCount)
-    // {
-    //     move_to_summary_view();
-    // }
 }
 
 void move_to_summary_view()
@@ -122,4 +119,31 @@ void move_to_summary_view()
     dispose_training_view_ui();
 
     render_summary_view_ui(correctWords, incorrectWords, accuracy);
+}
+
+void on_window_realize() 
+{
+    RemainingTime = time(NULL) + 60;
+}
+
+int update_remaining_time(gpointer label) 
+{
+    time_t currentTime = time(NULL);
+
+    double remainingTime = difftime(RemainingTime, currentTime);
+
+    if (remainingTime >= 0)
+    {
+        char* remainingTimeString = g_strdup_printf("%.0f seconds", remainingTime);
+
+        gtk_label_set_text(RemainingTimeLabel, remainingTimeString);
+
+        g_free(remainingTimeString);
+    }
+    else
+    {
+        move_to_summary_view();
+    }
+    
+    return 1;
 }

@@ -3,12 +3,7 @@
 /*
  *  Defines the time when user gains ability to type words
  */
-clock_t StartTime;
-
-/*
- *  Defines the total time for the training (60s)
- */
-clock_t RemainingTime = 60000;
+time_t RemainingTime;
 
 /*
  *  Defines the written count of words

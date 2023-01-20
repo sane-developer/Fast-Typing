@@ -28,4 +28,4 @@ GtkLabel* AccuracyLabel;
 /*
  *  Defines the widget which represents the elapsed time label
  */
-GtkLabel* ElapsedTimeLabel;
+GtkLabel* RemainingTimeLabel;
