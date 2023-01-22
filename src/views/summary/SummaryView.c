@@ -1,7 +1,8 @@
+#include "SummaryView.h"
 #include "SummaryViewWidgets.h"
-#include "SummaryViewBehavior.h"
 #include "SummaryViewVariables.h"
-#include "../setup/SetupViewBehavior.h"
+#include "SummaryViewFunctionality.h"
+#include "../setup/SetupView.h"
 #include "../../extensions/signals/Detach.h"
 
 void initialize_summary_view_widgets(GtkBuilder *builder)
@@ -34,20 +35,22 @@ void initialize_summary_view_widgets(GtkBuilder *builder)
 
     gtk_label_set_text(WorstWpmLabel, g_strdup_printf("%i", GameModeStatistics->worst_words_per_minute_score));
 
-    g_signal_connect(MoveToSetupButton, "clicked", G_CALLBACK(move_to_setup_view), NULL);
+    g_signal_connect(SummaryMainWindow, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+    g_signal_connect(MoveToSetupButton, "clicked", G_CALLBACK(switch_context_to_setup_view), NULL);
 }
 
-void initialize_summary_view_variables(int mode, int correctWords, int incorrectWords, float accuracy)
+void initialize_summary_view_variables(enum TrainingModes mode, int correct_words, int incorrect_words, float accuracy)
 {
     ArchiveFileName = "statistics.txt";
 
     Accuracy = accuracy;
 
-    CorrectWords = correctWords;
+    CorrectWords = correct_words;
 
-    IncorrectWords = incorrectWords;
+    IncorrectWords = incorrect_words;
 
-    WordsPerMinute = correctWords + incorrectWords;
+    WordsPerMinute = correct_words + incorrect_words;
 
     archive_statistics(ArchiveFileName, mode, WordsPerMinute);
 
@@ -69,15 +72,13 @@ void initialize_summary_view_variables(int mode, int correctWords, int incorrect
     }
 }
 
-void render_summary_view_ui(int mode, int correctWords, int incorrectWords, float accuracy)
+void render_summary_view_ui(enum TrainingModes mode, int correct_words, int incorrect_words, float accuracy)
 {
-    GtkBuilder *builder = gtk_builder_new_from_file("summary.glade");
+    GtkBuilder *builder = gtk_builder_new_from_file("resources/SummaryViewUI.glade");
 
-    initialize_summary_view_variables(mode, correctWords, incorrectWords, accuracy);
+    initialize_summary_view_variables(mode, correct_words, incorrect_words, accuracy);
 
     initialize_summary_view_widgets(builder);
-
-    g_signal_connect(MoveToSetupButton, "clicked", G_CALLBACK(move_to_setup_view), NULL);
 
     gtk_builder_connect_signals(builder, NULL); 
 
@@ -97,7 +98,7 @@ void dispose_summary_view_ui()
     gtk_widget_destroy(SummaryMainWindow);
 }
 
-void move_to_setup_view()
+void switch_context_to_setup_view()
 {
     dispose_summary_view_ui();
     

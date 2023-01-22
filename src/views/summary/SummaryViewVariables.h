@@ -1,10 +1,12 @@
-#include "../../extensions/statistics/Statistics.h"
+#ifndef SUMMARYVIEWVARIABLES_H
+#define SUMMARYVIEWVARIABLES_H
+
+#include "../../extensions/data/Statistics.h"
 
 /*
  *  Defines the file name of the archive 
  */
 char* ArchiveFileName;
-
 
 /*
  *  Defines the input accuracy
@@ -31,3 +33,5 @@ int IncorrectWords;
  *  Defines the type statistics for chosen mode by player
  */
 struct TypeStatistics* GameModeStatistics;
+
+#endif

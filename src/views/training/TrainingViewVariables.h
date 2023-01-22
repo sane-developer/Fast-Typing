@@ -1,3 +1,6 @@
+#ifndef TRAININGVIEWVARIABLES_H
+#define TRAININGVIEWVARIABLES_H
+
 #include <time.h>
 
 /*
@@ -34,3 +37,5 @@ char *CurrentWord;
  *  Defines the words to type
  */
 char **AvailableWords;
+
+#endif

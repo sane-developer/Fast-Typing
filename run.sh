@@ -11,4 +11,4 @@ cmake ../src
 
 make
 
-./Fast-Typing-Training
+./Fast-Typing

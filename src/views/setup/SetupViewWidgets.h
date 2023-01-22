@@ -1,3 +1,6 @@
+#ifndef SETUPVIEWWIDGETS_H
+#define SETUPVIEWWIDGETS_H
+
 #include <gtk/gtk.h>
 
 /*
@@ -24,3 +27,5 @@ GtkRadioButton* LongWordsButton;
  *  Defines the widget which represents the start training trigger
  */
 GtkButton* MoveToTrainingViewButton;
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef SUMMARYVIEWWIDGETS_H
+#define SUMMARYVIEWWIDGETS_H
+
 #include <gtk/gtk.h>
 
 /*
@@ -39,3 +42,5 @@ GtkLabel* WorstWpmLabel;
  *  Defines the widget which represents the settings reset button 
  */
 GtkButton* MoveToSetupButton;
+
+#endif

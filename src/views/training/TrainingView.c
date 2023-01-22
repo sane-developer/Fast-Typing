@@ -1,15 +1,16 @@
+#include "TrainingView.h"
 #include "TrainingViewWidgets.h"
-#include "TrainingViewBehavior.h"
 #include "TrainingViewVariables.h"
-#include "../summary/SummaryViewBehavior.h"
-#include "../../extensions/words/Dictionary.h"
+#include "TrainingViewFunctionality.h"
+#include "../summary/SummaryView.h"
+#include "../../collections/Words.h"
 #include "../../extensions/signals/Detach.h"
 
-void initialize_training_view_variables(int mode)
+void initialize_training_view_variables(enum TrainingModes mode)
 {
-    struct Dictionary *dictionary = read_words_from_file("words.txt");
+    struct Words *dictionary = read_words_from_file("resources/Dictionary.txt");
 
-    struct WordRange *range = get_range_from_string(mode);
+    struct WordRange *range = get_range_from_mode(mode);
 
     AvailableWords = get_randomized_words(dictionary, range);
     
@@ -38,18 +39,20 @@ void initialize_training_view_widgets(GtkBuilder *builder)
 
     gtk_label_set_text(WordDisplayLabel, CurrentWord);
 
-    gtk_label_set_text(RemainingTimeLabel, "60 sec");
+    gtk_label_set_text(RemainingTimeLabel, "60 seconds");
 
     g_signal_connect(TrainingMainWindow, "realize", G_CALLBACK(on_window_realize), NULL);
+
+    g_signal_connect(TrainingMainWindow, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
     g_signal_connect(WordInput, "activate", G_CALLBACK(changed_input), NULL);
 
     g_timeout_add(1000, update_remaining_time, RemainingTimeLabel);
 }
 
-void render_training_view_ui(int mode)
+void render_training_view_ui(enum TrainingModes mode)
 {
-    GtkBuilder *builder = gtk_builder_new_from_file("training.glade");
+    GtkBuilder *builder = gtk_builder_new_from_file("resources/TrainingViewUI.glade");
 
     initialize_training_view_variables(mode);
 
@@ -77,6 +80,11 @@ void dispose_training_view_ui()
     disconnect_parent_signals(TrainingMainWindow);
 
     gtk_widget_destroy(TrainingMainWindow);
+}
+
+void on_window_realize() 
+{
+    RemainingTime = time(NULL) + 60;
 }
 
 void changed_input() 
@@ -110,41 +118,36 @@ void changed_input()
     }
 }
 
-void move_to_summary_view()
+void switch_context_to_summary_view()
 {
-    int correctWords = CorrectWordsCount;
+    int correct_words = CorrectWordsCount;
 
-    int incorrectWords = IncorrectWordsCount;
+    int incorrect_words = IncorrectWordsCount;
 
     float accuracy = (float)CorrectWordsCount / (float)WrittenWordsCount * 100;
 
     dispose_training_view_ui();
 
-    render_summary_view_ui(GameMode, correctWords, incorrectWords, accuracy);
-}
-
-void on_window_realize() 
-{
-    RemainingTime = time(NULL) + 60;
+    render_summary_view_ui(GameMode, correct_words, incorrect_words, accuracy);
 }
 
 int update_remaining_time(gpointer label) 
 {
     time_t currentTime = time(NULL);
 
-    double remainingTime = difftime(RemainingTime, currentTime);
+    double remaining_time = difftime(RemainingTime, currentTime);
 
-    if (remainingTime >= 0)
+    if (remaining_time >= 0)
     {
-        char* remainingTimeString = g_strdup_printf("%.0f seconds", remainingTime);
+        char* remaining_time_string = g_strdup_printf("%.0f seconds", remaining_time);
 
-        gtk_label_set_text(RemainingTimeLabel, remainingTimeString);
+        gtk_label_set_text(RemainingTimeLabel, remaining_time_string);
 
-        g_free(remainingTimeString);
+        g_free(remaining_time_string);
     }
     else
     {
-        move_to_summary_view();
+        switch_context_to_summary_view();
     }
     
     return 1;

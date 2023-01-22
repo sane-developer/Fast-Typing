@@ -1,3 +1,6 @@
+#ifndef TRAININGVIEWWIDGETS_H
+#define TRAININGVIEWWIDGETS_H
+
 #include <gtk/gtk.h>
 
 /*
@@ -29,3 +32,5 @@ GtkLabel* AccuracyLabel;
  *  Defines the widget which represents the elapsed time label
  */
 GtkLabel* RemainingTimeLabel;
+
+#endif

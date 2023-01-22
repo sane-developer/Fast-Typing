@@ -152,7 +152,7 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
-            <signal name="clicked" handler="move_to_setup_view" swapped="no"/>
+            <signal name="clicked" handler="switch_context_to_setup_view" swapped="no"/>
           </object>
           <packing>
             <property name="left-attach">0</property>

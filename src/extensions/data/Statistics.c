@@ -1,16 +1,15 @@
 #include "Statistics.h"
 
-void archive_statistics(char* filename, int mode, int words_per_minute_score) 
+void archive_statistics(char* file_name, enum TrainingModes mode, int words_per_minute_score) 
 {
     //  Opens file "archive.txt" in "append" mode
     //
-    FILE* archive = fopen(filename, "a"); 
+    FILE* archive = fopen(file_name, "a"); 
     
     //  Checks if file was opened successfully
     //
     if (archive == NULL) 
     {
-        printf("Archive file doesn't exist");
         return;
     }
 
@@ -23,7 +22,7 @@ void archive_statistics(char* filename, int mode, int words_per_minute_score)
     fclose(archive);
 }
 
-struct TypeStatistics* retrieve_statistics_by_mode(char* filename, int mode)
+struct TypeStatistics* retrieve_statistics_by_mode(char* file_name, enum TrainingModes chosen_mode)
 {
     //  Initializes the best words per minute score
     //
@@ -43,27 +42,19 @@ struct TypeStatistics* retrieve_statistics_by_mode(char* filename, int mode)
 
     //  Opens the file for reading
     //
-    FILE* archive = fopen(filename, "r");
+    FILE* statistics_file = fopen(file_name, "r");
 
     //  Checks if file was opened successfully
     //
-    if (archive == NULL) 
+    if (statistics_file == NULL) 
     {
-        //  Creates the file of specified name
-        //
-        FILE* archive = fopen(filename, "a");
-
-        //  Closes the file after creation
-        //
-        fclose(archive);
-
         //  Allocates memory for the statistics
         //
         struct TypeStatistics* stats = malloc(sizeof(struct TypeStatistics));
         
         //  Fills the default data
         //
-        stats->mode = mode;
+        stats->mode = chosen_mode;
         stats->best_words_per_minute_score = 0;
         stats->worst_words_per_minute_score = 0;
         stats->average_words_per_minute_score = 0;
@@ -77,13 +68,13 @@ struct TypeStatistics* retrieve_statistics_by_mode(char* filename, int mode)
     //
     char line[256];
 
-    //  Loops through every line of the archive file
+    //  Loops through every line of the statistics file
     //
-    while (fgets(line, sizeof(line), archive)) 
+    while (fgets(line, sizeof(line), statistics_file)) 
     {
         //  Splits the line into mode and words_per_minute_score
         //
-        int game_mode;
+        enum TrainingModes game_mode;
         
         //  Declares the words per minut score
         //
@@ -95,7 +86,7 @@ struct TypeStatistics* retrieve_statistics_by_mode(char* filename, int mode)
 
         //  Checks if the mode matches the mode we're looking for
         //
-        if (mode == game_mode)
+        if (chosen_mode == game_mode)
         {
             //  Update the statistics
             //
@@ -123,7 +114,7 @@ struct TypeStatistics* retrieve_statistics_by_mode(char* filename, int mode)
 
     //  Closes the file
     //
-    fclose(archive);
+    fclose(statistics_file);
 
     //  Declares the average words per minute score
     //
@@ -142,7 +133,7 @@ struct TypeStatistics* retrieve_statistics_by_mode(char* filename, int mode)
     
     //  Fills the default data
     //
-    stats->mode = mode;
+    stats->mode = chosen_mode;
     stats->best_words_per_minute_score = best_words_per_minute_score;
     stats->worst_words_per_minute_score = worst_words_per_minute_score;
     stats->average_words_per_minute_score = average_words_per_minute_score;

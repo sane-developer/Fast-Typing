@@ -1,5 +1,5 @@
 #include <gtk/gtk.h>
-#include "views/setup/SetupViewBehavior.h"
+#include "views/setup/SetupView.h"
 
 int main(int argc, char *argv[])
 {
