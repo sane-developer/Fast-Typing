@@ -52,6 +52,7 @@ Mkfile.old
 dkms.conf
 
 # Working directory files
-.sh
+*.env
+*.sh
 .vscode/
 build/
