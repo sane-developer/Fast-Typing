@@ -2,7 +2,7 @@
 
 The application allows you to master your typing skills.
 
-<h1>What was it made in?<h1>
+<h1>What was it made in?</h1>
 
 The application has been created in GTK library and C language.
 
