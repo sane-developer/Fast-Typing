@@ -74,7 +74,7 @@ struct TypeStatistics* retrieve_statistics_by_mode(char* file_name, enum Trainin
     {
         //  Splits the line into mode and words_per_minute_score
         //
-        enum TrainingModes game_mode;
+        int game_mode;
         
         //  Declares the words per minut score
         //

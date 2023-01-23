@@ -4,7 +4,7 @@ struct Words* read_words_from_file(const char* file_name)
 {
     //  Allocates memory for the struct Dictionary
     //
-    struct Words* words = (struct Words*)malloc(sizeof(struct Words));
+    struct Words* words = (struct Words*) malloc(sizeof(struct Words));
 
     //  Initializes the size to 0
     //
@@ -50,7 +50,7 @@ struct Words* read_words_from_file(const char* file_name)
 
 struct WordRange* get_range_from_mode(enum TrainingModes mode)
 {
-    struct WordRange* range = (struct WordRange*)malloc(sizeof(struct WordRange));
+    struct WordRange* range = (struct WordRange*) malloc(sizeof(struct WordRange));
 
     if (mode == AllWords)
     {
